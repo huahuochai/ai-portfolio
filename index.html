@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>语音微课 · 女(nǚ) 与 努(nǔ) · 四页训练</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif; }
+    body { background: linear-gradient(145deg, #0b1424 0%, #101d30 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .lesson-card { max-width: 920px; width: 100%; background: rgba(18, 28, 46, 0.88); backdrop-filter: blur(12px); border-radius: 40px; border: 1px solid rgba(100, 170, 255, 0.25); box-shadow: 0 30px 50px rgba(0,0,0,0.7); padding: 1.6rem 1.6rem 1.2rem; color: #eef4ff; display: flex; flex-direction: column; min-height: 700px; }
+    .title-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
+    .title-main { display: flex; align-items: center; gap: 10px; }
+    .title-icon { font-size: 2rem; filter: drop-shadow(0 0 10px #3b82f6); }
+    h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #fff, #a8d0ff, #6ea8fe); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .badge { background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; padding: 0.35rem 0.9rem; border-radius: 30px; font-size: 0.8rem; color: #b8d4ff; }
+    .page-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; flex-shrink: 0; }
+    .tab-btn { background: rgba(30,50,80,0.7); border: 1.5px solid #2a3f5e; border-radius: 30px; padding: 0.45rem 1.1rem; font-size: 0.85rem; font-weight: 600; color: #9bb5d9; cursor: pointer; transition: all 0.2s; }
+    .tab-btn:hover { background: rgba(40,70,120,0.9); color: #d0e2ff; }
+    .tab-btn.active { background: #1e3a8a; border-color: #4f8eff; color: white; box-shadow: 0 0 14px rgba(59,130,246,0.35); }
+    .page-content { flex: 1; display: flex; flex-direction: column; }
+    .page { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.25s ease; }
+    .page.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .contrast-panel { display: flex; align-items: center; justify-content: center; gap: 2rem; background: rgba(0,20,40,0.6); padding: 1.4rem 1rem; border-radius: 28px; margin-bottom: 1.2rem; border: 1px solid rgba(70,130,220,0.3); }
+    .phoneme { text-align: center; cursor: pointer; padding: 0.3rem 0.8rem; border-radius: 18px; transition: transform 0.2s; }
+    .phoneme:hover { transform: scale(1.05); background: rgba(59,130,246,0.12); }
+    .phoneme .symbol { font-size: 2.6rem; font-weight: 700; color: #fff; text-shadow: 0 0 20px #3b82f6; }
+    .phoneme .word { font-size: 1.2rem; color: #d3e3ff; margin-top: 0.15rem; }
+    .phoneme .hint { font-size: 0.75rem; color: #8ea9d0; }
+    .vs { font-size: 1.3rem; font-weight: 700; color: #5f8fd0; background: rgba(30,64,175,0.5); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .button-grid { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin: 0.8rem 0; }
+    .audio-btn { background: linear-gradient(145deg, #1e3a8a, #1e40af); border: 1.5px solid #4f8eff; border-radius: 50px; padding: 0.7rem 1.4rem; font-size: 0.95rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 16px rgba(0,20,70,0.6); }
+    .audio-btn:hover { background: linear-gradient(145deg, #2563eb, #3b82f6); transform: translateY(-2px); }
+    .mirror-tip { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; background: rgba(255,255,255,0.04); border-radius: 40px; padding: 0.5rem 1rem; margin-top: 0.6rem; font-size: 0.85rem; color: #b8cbf0; border: 1px dashed rgba(100,160,255,0.35); }
+
+    .quiz-card { background: rgba(10,25,45,0.65); border-radius: 24px; padding: 1.2rem 1.4rem; border: 1px solid rgba(70,140,250,0.25); flex: 1; display: flex; flex-direction: column; }
+    .quiz-title { font-size: 1rem; font-weight: 600; color: #b8d4ff; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
+    .quiz-row { background: rgba(0,0,0,0.2); border-radius: 18px; padding: 0.7rem 1rem; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+    .quiz-row .word-label { font-size: 1rem; color: #d3e3ff; font-weight: 500; min-width: 80px; }
+    .quiz-row .play-btn { background: #1e3a8a; border: 1.5px solid #4f8eff; border-radius: 30px; padding: 0.4rem 0.9rem; font-size: 0.85rem; font-weight: 600; color: white; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .quiz-row .play-btn:hover { background: #2563eb; }
+    .options { display: flex; gap: 0.6rem; }
+    .opt { background: #1e2a44; border: 1.5px solid #3b4f6e; border-radius: 30px; padding: 0.4rem 1.2rem; font-weight: 600; font-size: 1rem; color: #cfdfff; cursor: pointer; transition: all 0.15s; }
+    .opt:hover { background: #2a3d62; }
+    .opt.correct { background: #166534; border-color: #4ade80; color: white; box-shadow: 0 0 14px #22c55e; }
+    .opt.wrong { background: #7f1d1d; border-color: #f87171; color: #fecaca; }
+    .feedback { margin-top: 0.6rem; padding: 0.5rem 0.8rem; border-radius: 20px; background: rgba(59,130,246,0.12); color: #b0d0ff; font-size: 0.9rem; min-height: 2.4rem; display: flex; align-items: center; gap: 6px; }
+
+    .img-grid { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin: 0.5rem 0 1rem; }
+    .img-card { background: rgba(0,20,40,0.5); border-radius: 20px; padding: 1rem; text-align: center; flex: 1 1 200px; border: 1px solid rgba(70,140,250,0.25); }
+    .img-card img { width: 150px; height: 150px; object-fit: cover; border-radius: 18px; border: 2px solid rgba(100,170,255,0.4); margin-bottom: 0.7rem; }
+    .img-card .img-label { font-size: 0.9rem; color: #9bb5d9; margin-bottom: 0.5rem; }
+    .img-card .opt { padding: 0.45rem 1.3rem; font-size: 1.05rem; }
+
+    .sentence-card { background: rgba(0,20,40,0.5); border-radius: 20px; padding: 1rem 1.2rem; margin-bottom: 0.9rem; border: 1px solid rgba(70,140,250,0.25); }
+    .sentence-card .sentence-text { font-size: 1.05rem; color: #d3e3ff; margin-bottom: 0.6rem; line-height: 1.6; }
+    .sentence-card .sentence-text .blank { display: inline-block; min-width: 36px; border-bottom: 2px dashed #4f8eff; text-align: center; color: #facc15; font-weight: 700; }
+    .sentence-card .sentence-actions { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+
+    .score-line { font-size: 0.85rem; color: #8ea9d0; text-align: right; margin-top: 0.4rem; }
+    .footer-note { margin-top: 0.8rem; font-size: 0.7rem; color: #6b85a8; text-align: center; border-top: 1px solid rgba(100,150,220,0.12); padding-top: 0.6rem; flex-shrink: 0; }
+    @media (max-width: 600px) {
+      .lesson-card { padding: 1rem 0.8rem; border-radius: 24px; min-height: 660px; }
+      h1 { font-size: 1.2rem; }
+      .phoneme .symbol { font-size: 2.2rem; }
+      .quiz-row { flex-direction: column; align-items: flex-start; }
+      .options { width: 100%; justify-content: flex-end; }
+      .img-card img { width: 120px; height: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="lesson-card">
+    <div class="title-section">
+      <div class="title-main">
+        <span class="title-icon">🔊</span>
+        <h1>女(nǚ) 与 努(nǔ)</h1>
+      </div>
+      <div class="badge">四页训练 · AI语音朗读</div>
+    </div>
+
+    <div class="page-tabs">
+      <button class="tab-btn active" data-page="page1">① 发音对比</button>
+      <button class="tab-btn" data-page="page2">② 词汇听辨</button>
+      <button class="tab-btn" data-page="page3">③ 看图辨析</button>
+      <button class="tab-btn" data-page="page4">④ 句子听辨</button>
+    </div>
+
+    <div class="page-content">
+
+      <!-- 第一页：发音对比 -->
+      <div class="page active" id="page1">
+        <div class="contrast-panel">
+          <div class="phoneme" id="clickNu">
+            <div class="symbol">nǚ</div>
+            <div class="word">女</div>
+            <div class="hint">前高圆唇 · 舌位在前</div>
+          </div>
+          <div class="vs">VS</div>
+          <div class="phoneme" id="clickNu2">
+            <div class="symbol">nǔ</div>
+            <div class="word">努</div>
+            <div class="hint">后高圆唇 · 舌位在后</div>
+          </div>
+        </div>
+        <div class="button-grid">
+          <button class="audio-btn" id="playNuBtn">🔊 女 (nǚ)</button>
+          <button class="audio-btn" id="playNu2Btn">🔊 努 (nǔ)</button>
+          <button class="audio-btn" id="playBothBtn">🔁 连续对比</button>
+        </div>
+        <div class="mirror-tip">
+          <span>💨 吹口哨动作</span>
+          <span>👄 嘴唇撮圆</span>
+          <span>👅 女在前 / 努在后</span>
+        </div>
+      </div>
+
+      <!-- 第二页：词汇听辨 -->
+      <div class="page" id="page2">
+        <div class="quiz-card">
+          <div class="quiz-title">🎧 听词语，判断其中含有“女(nǚ)”还是“努(nǔ)”</div>
+
+          <div class="quiz-row" data-word-quiz="1">
+            <span class="word-label">女孩</span>
+            <button class="play-btn" data-word-play="1">▶ 播放</button>
+            <div class="options">
+              <button class="opt" data-word-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-word-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="quiz-row" data-word-quiz="2">
+            <span class="word-label">母女</span>
+            <button class="play-btn" data-word-play="2">▶ 播放</button>
+            <div class="options">
+              <button class="opt" data-word-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-word-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="quiz-row" data-word-quiz="3">
+            <span class="word-label">努力</span>
+            <button class="play-btn" data-word-play="3">▶ 播放</button>
+            <div class="options">
+              <button class="opt" data-word-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-word-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="quiz-row" data-word-quiz="4">
+            <span class="word-label">努嘴</span>
+            <button class="play-btn" data-word-play="4">▶ 播放</button>
+            <div class="options">
+              <button class="opt" data-word-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-word-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="feedback" id="wordFeedback">点击“播放”，听词语发音后选择答案</div>
+          <div class="score-line" id="wordScore">得分 0 / 4</div>
+        </div>
+      </div>
+
+      <!-- 第三页：看图辨析 -->
+      <div class="page" id="page3">
+        <div class="quiz-card">
+          <div class="quiz-title">🖼️ 看图片，选出正确的词语</div>
+          <div class="img-grid">
+            <div class="img-card" data-img-quiz="1">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face" alt="女生">
+              <div class="img-label">图 1 · 女生</div>
+              <button class="opt" data-img-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-img-ans="nu2">努 (nǔ)</button>
+            </div>
+            <div class="img-card" data-img-quiz="2">
+              <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300&h=300&fit=crop" alt="努力学习的人">
+              <div class="img-label">图 2 · 努力学习的人</div>
+              <button class="opt" data-img-ans="nu2">努 (nǔ)</button>
+              <button class="opt" data-img-ans="nu3">女 (nǚ)</button>
+            </div>
+          </div>
+          <div class="feedback" id="imgFeedback">点击图片下方的选项进行选择</div>
+          <div class="score-line" id="imgScore">得分 0 / 2</div>
+        </div>
+      </div>
+
+      <!-- 第四页：句子听辨 -->
+      <div class="page" id="page4">
+        <div class="quiz-card">
+          <div class="quiz-title">📝 听整句，找出句中包含的是“女(nǚ)”还是“努(nǔ)”</div>
+
+          <div class="sentence-card" data-sent-quiz="1">
+            <div class="sentence-text">句中含有的字是：<span class="blank" id="blank1">?</span></div>
+            <div class="sentence-actions">
+              <button class="play-btn" data-sent-play="1">▶ 播放句子</button>
+              <button class="opt" data-sent-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-sent-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="sentence-card" data-sent-quiz="2">
+            <div class="sentence-text">句中含有的字是：<span class="blank" id="blank2">?</span></div>
+            <div class="sentence-actions">
+              <button class="play-btn" data-sent-play="2">▶ 播放句子</button>
+              <button class="opt" data-sent-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-sent-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="sentence-card" data-sent-quiz="3">
+            <div class="sentence-text">句中含有的字是：<span class="blank" id="blank3">?</span></div>
+            <div class="sentence-actions">
+              <button class="play-btn" data-sent-play="3">▶ 播放句子</button>
+              <button class="opt" data-sent-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-sent-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="sentence-card" data-sent-quiz="4">
+            <div class="sentence-text">句中含有的字是：<span class="blank" id="blank4">?</span></div>
+            <div class="sentence-actions">
+              <button class="play-btn" data-sent-play="4">▶ 播放句子</button>
+              <button class="opt" data-sent-ans="nu3">女 (nǚ)</button>
+              <button class="opt" data-sent-ans="nu2">努 (nǔ)</button>
+            </div>
+          </div>
+
+          <div class="feedback" id="sentFeedback">点击“播放句子”，听完后选择句中出现的字</div>
+          <div class="score-line" id="sentScore">得分 0 / 4</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-note">汉语语音微课 · 女/努最小对立对 · AI语音朗读</div>
+  </div>
+
+  <script>
+    (function() {
+      // ========== 语音合成（TTS）工具 ==========
+      const synth = window.speechSynthesis;
+      let chineseVoice = null;
+
+      function loadVoices() {
+        const voices = synth.getVoices();
+        chineseVoice = voices.find(v => v.lang === 'zh-CN' || v.lang === 'zh_CN' || v.lang.startsWith('zh')) || null;
+      }
+      loadVoices();
+      if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = loadVoices;
+      }
+
+      // 核心朗读函数：读任意中文文本
+      function speak(text, rate = 0.85) {
+        if (!synth) { console.warn('浏览器不支持语音合成'); return; }
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        utterance.rate = rate;
+        utterance.pitch = 1.0;
+        if (chineseVoice) utterance.voice = chineseVoice;
+        synth.speak(utterance);
+      }
+
+      // 读“女”和“努”（第一页用）
+      function speakNu3() { speak('女', 0.8); }
+      function speakNu2() { speak('努', 0.8); }
+      function speakBoth() {
+        synth.cancel();
+        const u1 = new SpeechSynthesisUtterance('女');
+        u1.lang = 'zh-CN'; u1.rate = 0.8;
+        if (chineseVoice) u1.voice = chineseVoice;
+        const u2 = new SpeechSynthesisUtterance('努');
+        u2.lang = 'zh-CN'; u2.rate = 0.8;
+        if (chineseVoice) u2.voice = chineseVoice;
+        synth.speak(u1);
+        synth.speak(u2);
+      }
+
+      // 第一页按钮
+      document.getElementById('playNuBtn').onclick = speakNu3;
+      document.getElementById('playNu2Btn').onclick = speakNu2;
+      document.getElementById('playBothBtn').onclick = speakBoth;
+      document.getElementById('clickNu').onclick = speakNu3;
+      document.getElementById('clickNu2').onclick = speakNu2;
+
+      // 分页
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.onclick = function() {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+          this.classList.add('active');
+          document.getElementById(this.dataset.page).classList.add('active');
+        };
+      });
+
+      // ========== 第二页：词汇听辨 ==========
+      // 词语与正确答案：女孩→女，母女→女，努力→努，努嘴→努
+      const wordMap = {
+        '1': { text: '女孩', ans: 'nu3' },
+        '2': { text: '母女', ans: 'nu3' },
+        '3': { text: '努力', ans: 'nu2' },
+        '4': { text: '努嘴', ans: 'nu2' }
+      };
+      const wordState = {};
+      let wordScore = 0;
+
+      document.querySelectorAll('[data-word-play]').forEach(btn => {
+        btn.onclick = function() {
+          const id = this.dataset.wordPlay;
+          speak(wordMap[id].text, 0.8);
+        };
+      });
+
+      document.querySelectorAll('[data-word-quiz]').forEach(row => {
+        const id = row.dataset.wordQuiz;
+        const correct = wordMap[id].ans;
+        row.querySelectorAll('[data-word-ans]').forEach(opt => {
+          opt.onclick = function() {
+            if (wordState[id]) return;
+            const ans = this.dataset.wordAns;
+            row.querySelectorAll('[data-word-ans]').forEach(o => o.classList.remove('correct','wrong'));
+            if (ans === correct) {
+              this.classList.add('correct'); wordScore++; wordState[id] = true;
+              document.getElementById('wordFeedback').textContent = '✅ 正确！';
+            } else {
+              this.classList.add('wrong');
+              row.querySelectorAll('[data-word-ans]').forEach(o => { if (o.dataset.wordAns === correct) o.classList.add('correct'); });
+              wordState[id] = true;
+              document.getElementById('wordFeedback').textContent = '❌ 再听一次。女孩/母女含“女”，努力/努嘴含“努”。';
+            }
+            document.getElementById('wordScore').textContent = `得分 ${wordScore} / 4`;
+          };
+        });
+      });
+
+      // ========== 第三页：看图辨析 ==========
+      const imgCorrect = { '1': 'nu3', '2': 'nu2' };
+      const imgState = {};
+      let imgScore = 0;
+
+      document.querySelectorAll('[data-img-quiz]').forEach(card => {
+        const id = card.dataset.imgQuiz;
+        const correct = imgCorrect[id];
+        card.querySelectorAll('[data-img-ans]').forEach(opt => {
+          opt.onclick = function() {
+            if (imgState[id]) return;
+            const ans = this.dataset.imgAns;
+            card.querySelectorAll('[data-img-ans]').forEach(o => o.classList.remove('correct','wrong'));
+            if (ans === correct) {
+              this.classList.add('correct'); imgScore++; imgState[id] = true;
+              document.getElementById('imgFeedback').textContent = '✅ 正确！';
+            } else {
+              this.classList.add('wrong');
+              card.querySelectorAll('[data-img-ans]').forEach(o => { if (o.dataset.imgAns === correct) o.classList.add('correct'); });
+              imgState[id] = true;
+              document.getElementById('imgFeedback').textContent = '❌ 看图再想想。女生 = 女，努力学习 = 努。';
+            }
+            document.getElementById('imgScore').textContent = `得分 ${imgScore} / 2`;
+          };
+        });
+      });
+
+      // ========== 第四页：句子听辨 ==========
+      const sentenceMap = {
+        '1': { text: '那个女孩笑起来很好看。', ans: 'nu3', char: '女' },
+        '2': { text: '她是班里最用功的女生。', ans: 'nu3', char: '女' },
+        '3': { text: '只要努力，就一定会有收获。', ans: 'nu2', char: '努' },
+        '4': { text: '他朝门口努了努嘴，示意我出去。', ans: 'nu2', char: '努' }
+      };
+      const sentState = {};
+      let sentScore = 0;
+
+      document.querySelectorAll('[data-sent-play]').forEach(btn => {
+        btn.onclick = function() {
+          const id = this.dataset.sentPlay;
+          speak(sentenceMap[id].text, 0.8);
+        };
+      });
+
+      document.querySelectorAll('[data-sent-quiz]').forEach(card => {
+        const id = card.dataset.sentQuiz;
+        const correct = sentenceMap[id].ans;
+        card.querySelectorAll('[data-sent-ans]').forEach(opt => {
+          opt.onclick = function() {
+            if (sentState[id]) return;
+            const ans = this.dataset.sentAns;
+            card.querySelectorAll('[data-sent-ans]').forEach(o => o.classList.remove('correct','wrong'));
+            const blank = document.getElementById('blank' + id);
+            if (ans === correct) {
+              this.classList.add('correct'); sentScore++; sentState[id] = true;
+              blank.textContent = sentenceMap[id].char;
+              document.getElementById('sentFeedback').textContent = '✅ 正确！';
+            } else {
+              this.classList.add('wrong');
+              card.querySelectorAll('[data-sent-ans]').forEach(o => { if (o.dataset.sentAns === correct) o.classList.add('correct'); });
+              sentState[id] = true;
+              blank.textContent = sentenceMap[id].char;
+              document.getElementById('sentFeedback').textContent = '❌ 再听一遍整句，注意目标字的发音。';
+            }
+            document.getElementById('sentScore').textContent = `得分 ${sentScore} / 4`;
+          };
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
